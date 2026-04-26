@@ -1,0 +1,1743 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>アスパラガス ご注文フォーム｜有限会社滝本農場</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Josefin+Sans:wght@400;600;700&display=swap');
+
+  :root {
+    --teal: #4a8c8c;
+    --teal-dark: #3a7070;
+    --teal-light: #e8f4f4;
+    --coral: #d4614a;
+    --coral-light: #fdf0ee;
+    --brown: #5c3d2e;
+    --cream: #faf6f0;
+    --cream-dark: #f0e8dc;
+    --text: #2c2416;
+    --text-muted: #7a6a5a;
+    --border: #c8b89a;
+    --shadow: rgba(92,61,46,0.12);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--cream);
+    font-family: 'Noto Sans JP', sans-serif;
+    color: var(--text);
+    min-height: 100vh;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(200,184,154,0.15) 39px, rgba(200,184,154,0.15) 40px),
+      repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(200,184,154,0.15) 39px, rgba(200,184,154,0.15) 40px);
+  }
+
+  /* ヘッダー */
+  .site-header {
+    background: var(--brown);
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px var(--shadow);
+  }
+  .header-inner {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 14px 20px;
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+  }
+  .site-title {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    color: var(--cream-dark);
+    text-transform: uppercase;
+  }
+  .site-subtitle {
+    font-size: 11px;
+    color: rgba(240,232,220,0.6);
+    letter-spacing: 0.05em;
+  }
+  .header-badge {
+    margin-left: auto;
+    background: var(--coral);
+    color: white;
+    font-size: 10px;
+    font-family: 'Josefin Sans', sans-serif;
+    letter-spacing: 0.1em;
+    padding: 3px 10px;
+    border-radius: 2px;
+    font-weight: 600;
+  }
+
+  /* メインコンテナ */
+  .container {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 28px 16px 60px;
+  }
+
+  /* セクションタイトル */
+  .section-label {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--teal-dark);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* カード */
+  .card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 22px 24px;
+    margin-bottom: 16px;
+    box-shadow: 2px 2px 0 rgba(200,184,154,0.4);
+  }
+
+  /* フォーム要素 */
+  .field { margin-bottom: 16px; }
+  .field:last-child { margin-bottom: 0; }
+
+  label {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+  }
+  .required { color: var(--coral); margin-left: 3px; }
+
+  input[type="text"],
+  input[type="tel"],
+  input[type="email"],
+  input[type="date"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    font-size: 15px;
+    font-family: 'Noto Sans JP', sans-serif;
+    color: var(--text);
+    background: var(--cream);
+    transition: border-color 0.15s, box-shadow 0.15s;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--teal);
+    box-shadow: 0 0 0 3px rgba(74,140,140,0.12);
+    background: white;
+  }
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%237a6a5a'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 32px;
+    cursor: pointer;
+  }
+  textarea { resize: vertical; min-height: 70px; }
+
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .field-row-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 80px;
+    gap: 12px;
+    align-items: end;
+  }
+
+  /* 品種ラジオ */
+  .radio-group {
+    display: flex;
+    gap: 8px;
+  }
+  .radio-option {
+    flex: 1;
+  }
+  .radio-option input[type="radio"] { display: none; }
+  .radio-option label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 9px 8px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-muted);
+    background: var(--cream);
+    transition: all 0.15s;
+    text-transform: none;
+    letter-spacing: 0;
+    margin: 0;
+  }
+  .radio-option input[type="radio"]:checked + label {
+    background: var(--teal);
+    border-color: var(--teal);
+    color: white;
+    font-weight: 700;
+  }
+
+  /* 届け先カード */
+  .destination-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    margin-bottom: 12px;
+    overflow: hidden;
+    box-shadow: 2px 2px 0 rgba(200,184,154,0.4);
+  }
+  .destination-header {
+    background: var(--teal);
+    padding: 10px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .destination-num {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: white;
+  }
+  .btn-remove {
+    background: rgba(255,255,255,0.2);
+    border: none;
+    color: white;
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 2px;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 600;
+    transition: background 0.15s;
+  }
+  .btn-remove:hover { background: rgba(255,255,255,0.3); }
+  .btn-copy-orderer {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.4);
+    color: white;
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 2px;
+    cursor: pointer;
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    transition: background 0.15s;
+  }
+  .btn-copy-orderer:hover { background: rgba(255,255,255,0.28); }
+
+  .destination-body { padding: 18px 20px; }
+
+  /* 数量入力 */
+  .qty-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 8px;
+  }
+  .qty-item {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 8px 10px;
+  }
+  .qty-item label {
+    font-size: 10px;
+    margin-bottom: 4px;
+    color: var(--text-muted);
+    text-transform: none;
+    letter-spacing: 0;
+    font-weight: 500;
+  }
+  .qty-item input {
+    border: none;
+    background: transparent;
+    padding: 2px 0;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--brown);
+    width: 100%;
+  }
+  .qty-item input:focus {
+    box-shadow: none;
+    border-bottom: 1px solid var(--teal);
+  }
+
+  /* ギフトチェック */
+  .checkbox-group { display: flex; flex-wrap: wrap; gap: 8px; }
+  .check-option input[type="checkbox"] { display: none; }
+  .check-option label {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 7px 12px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--text-muted);
+    background: var(--cream);
+    transition: all 0.15s;
+    text-transform: none;
+    letter-spacing: 0;
+    margin: 0;
+    font-weight: 400;
+  }
+  .check-option input:checked + label {
+    background: var(--coral-light);
+    border-color: var(--coral);
+    color: var(--coral);
+    font-weight: 700;
+  }
+
+  /* 追加ボタン */
+  .btn-add {
+    width: 100%;
+    padding: 13px;
+    background: transparent;
+    border: 2px dashed var(--teal);
+    color: var(--teal);
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.15s;
+    margin-bottom: 24px;
+  }
+  .btn-add:hover {
+    background: var(--teal-light);
+  }
+
+  /* 送信ボタン */
+  .submit-area { text-align: center; }
+  .btn-submit {
+    background: var(--coral);
+    color: white;
+    border: none;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    padding: 15px 48px;
+    border-radius: 3px;
+    cursor: pointer;
+    box-shadow: 3px 3px 0 rgba(92,61,46,0.2);
+    transition: all 0.15s;
+    text-transform: uppercase;
+    width: 100%;
+    max-width: 360px;
+  }
+  .btn-submit:hover {
+    background: #c05540;
+    transform: translateY(-1px);
+    box-shadow: 3px 4px 0 rgba(92,61,46,0.25);
+  }
+  .btn-submit:active {
+    transform: translateY(0);
+    box-shadow: 1px 1px 0 rgba(92,61,46,0.2);
+  }
+  .submit-note {
+    margin-top: 10px;
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+  }
+
+  /* 確認モーダル */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(44,36,22,0.6);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .modal-overlay.active { display: flex; }
+  .modal {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 28px;
+    max-width: 480px;
+    width: 100%;
+    box-shadow: 6px 6px 0 rgba(92,61,46,0.15);
+  }
+  .modal-title {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: var(--brown);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+  }
+  .modal-body {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+    line-height: 1.7;
+  }
+  .modal-actions { display: flex; gap: 10px; }
+  .btn-cancel {
+    flex: 1;
+    padding: 11px;
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    cursor: pointer;
+    text-transform: uppercase;
+  }
+  .btn-confirm {
+    flex: 2;
+    padding: 11px;
+    background: var(--coral);
+    border: none;
+    border-radius: 3px;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: white;
+    cursor: pointer;
+    text-transform: uppercase;
+  }
+
+  /* 完了画面 */
+  .success-screen {
+    display: none;
+    text-align: center;
+    padding: 60px 20px;
+  }
+  .success-screen.active { display: block; }
+  .success-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+  }
+  .success-title {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: var(--teal);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+  }
+  .success-msg {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.8;
+  }
+
+  /* エラー */
+  .field-error {
+    font-size: 11px;
+    color: var(--coral);
+    margin-top: 4px;
+    display: none;
+  }
+  input.error, select.error, textarea.error {
+    border-color: var(--coral);
+  }
+
+  /* 郵便番号ヒント */
+  .zip-hint {
+    font-size: 11px;
+    color: var(--teal);
+    margin-top: 4px;
+    cursor: pointer;
+    display: none;
+  }
+
+  /* 注文タイプタブ */
+  .order-type-tabs { display: flex; gap: 8px; margin-bottom: 4px; }
+  .order-tab {
+    flex: 1; padding: 10px; border: 1px solid var(--border); border-radius: 3px;
+    background: var(--cream); color: var(--text-muted);
+    font-family: 'Noto Sans JP', sans-serif; font-size: 13px; font-weight: 700;
+    cursor: pointer; transition: all 0.15s;
+  }
+  .order-tab.active {
+    background: var(--brown); color: white; border-color: var(--brown);
+  }
+
+  /* 単色：品種規格選択 */
+  .spec-select {
+    width: 70px; padding: 5px 4px; font-size: 13px;
+    border: 1px solid var(--border); border-radius: 3px;
+    background: white; color: var(--text); flex-shrink: 0;
+  }
+  .variety-price {
+    margin-left: auto; font-size: 14px; font-weight: 700;
+    color: var(--coral); white-space: nowrap; min-width: 70px; text-align: right;
+  }
+
+  /* 3色セット */
+  .set-options { display: flex; flex-direction: column; gap: 8px; }
+  .set-option input[type="radio"] { display: none; }
+  .set-option-label {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 14px; border: 1px solid var(--border); border-radius: 3px;
+    cursor: pointer; background: var(--cream); transition: all 0.15s;
+  }
+  .set-option input:checked + .set-option-label {
+    background: var(--teal-light); border-color: var(--teal);
+  }
+  .set-name { font-size: 14px; font-weight: 700; color: var(--brown); min-width: 60px; }
+  .set-detail { font-size: 12px; color: var(--text-muted); flex: 1; }
+  .set-price { font-size: 16px; font-weight: 700; color: var(--coral); white-space: nowrap; }
+  .set-price-unit { font-size: 12px; font-weight: 400; }
+  .set-qty-wrap { display: flex; align-items: center; gap: 10px; }
+  .set-qty-input {
+    width: 70px; padding: 8px; font-size: 16px; font-weight: 700;
+    color: var(--brown); border: 1px solid var(--border); border-radius: 3px;
+    background: var(--cream); text-align: center;
+  }
+  .set-total-price {
+    font-size: 14px; font-weight: 600; color: var(--text-muted);
+    padding: 4px 10px; border-radius: 3px;
+    border: 1px solid var(--border); background: var(--cream);
+  }
+
+  /* 品種・重量入力 */
+  .variety-grid { display: flex; flex-direction: column; gap: 8px; }
+  .variety-row {
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    background: var(--cream); border: 1px solid var(--border);
+    border-radius: 3px; padding: 8px 12px;
+  }
+  .variety-badge {
+    font-size: 12px; font-weight: 700; letter-spacing: 0.05em;
+    padding: 3px 10px; border-radius: 2px; min-width: 64px; text-align: center;
+  }
+  .variety-badge.green { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+  .variety-badge.white { background: #f5f5f5; color: #555; border: 1px solid #ccc; }
+  .variety-badge.purple { background: #f3e5f5; color: #6a1b9a; border: 1px solid #ce93d8; }
+  .weight-input-wrap { display: flex; align-items: center; gap: 6px; }
+  .weight-input {
+    width: 90px; padding: 5px 8px; font-size: 15px; font-weight: 700;
+    color: var(--brown); border: 1px solid var(--border); border-radius: 3px;
+    background: white; text-align: right;
+  }
+  .weight-input:focus { border-color: var(--teal); box-shadow: 0 0 0 2px rgba(74,140,140,0.12); }
+  .weight-unit { font-size: 12px; color: var(--text-muted); font-weight: 500; }
+  .weight-hint { font-size: 11px; color: var(--text-muted); margin-top: 6px; }
+  .honsu-hint {
+    display: none; font-size: 11px; font-weight: 600;
+    color: var(--teal-dark); background: var(--teal-light);
+    border: 1px solid var(--teal); border-radius: 3px;
+    padding: 2px 7px; white-space: nowrap;
+  }
+  .weight-summary {
+    margin-top: 10px; padding: 10px 14px;
+    background: var(--teal-light); border: 1px solid var(--teal);
+    border-radius: 3px; font-size: 12px; color: var(--teal-dark);
+    display: none;
+  }
+  .weight-summary.visible { display: block; }
+
+  /* 配送オプション */
+  .shipping-placeholder {
+    font-size: 12px; color: var(--text-muted);
+    padding: 12px; background: var(--cream); border: 1px dashed var(--border);
+    border-radius: 3px; text-align: center;
+  }
+  .shipping-option-list { display: flex; flex-direction: column; gap: 8px; }
+  .shipping-option {
+    border: 1px solid var(--border); border-radius: 3px;
+    overflow: hidden; cursor: pointer; transition: all 0.15s;
+  }
+  .shipping-option.unavailable { opacity: 0.45; cursor: not-allowed; }
+  .shipping-option input[type="radio"] { display: none; }
+  .shipping-option-label {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 14px; cursor: pointer;
+    background: var(--cream);
+  }
+  .shipping-option input[type="radio"]:checked + .shipping-option-label {
+    background: var(--teal-light); border-color: var(--teal);
+  }
+  .shipping-option:has(input:checked) { border-color: var(--teal); }
+  .shipping-name { font-size: 15px; font-weight: 700; color: var(--brown); }
+  .shipping-detail { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+  .shipping-price { font-size: 18px; font-weight: 700; color: var(--coral); }
+  .shipping-price-sub { font-size: 11px; color: var(--text-muted); text-align: right; }
+  .shipping-unavail-msg { font-size: 11px; color: #aaa; }
+  .cod-wrap {
+    margin-top: 10px; padding: 10px 14px;
+    background: #fff8f0; border: 1px solid #e8c88a;
+    border-radius: 3px;
+  }
+  .cod-label {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13px; color: var(--brown); cursor: pointer;
+    text-transform: none; letter-spacing: 0; font-weight: 500; margin: 0;
+  }
+  .cod-label input { width: auto; }
+
+  @media (max-width: 520px) {
+    .field-row, .field-row-3 { grid-template-columns: 1fr; }
+    .card { padding: 16px; }
+    .destination-body { padding: 14px; }
+    .qty-grid { grid-template-columns: repeat(3, 1fr); }
+    .header-badge { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <span class="site-title">Takimoto Farm</span>
+    <span class="site-subtitle">有限会社滝本農場</span>
+    <span class="header-badge">Order Form</span>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- 注文者情報 -->
+  <div class="section-label">Orderer · 注文者情報</div>
+
+  <div class="card">
+    <div class="field-row">
+      <div class="field">
+        <label>お名前<span class="required">*</span></label>
+        <input type="text" id="orderer_name" placeholder="例：山田 太郎" required>
+        <div class="field-error" id="err-orderer_name">お名前を入力してください</div>
+      </div>
+      <div class="field">
+        <label>お名前（ふりがな）</label>
+        <input type="text" id="orderer_kana" placeholder="例：やまだ たろう">
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label>電話番号<span class="required">*</span></label>
+        <input type="tel" id="phone" placeholder="例：090-0000-0000" required>
+        <div class="field-error" id="err-phone">電話番号を入力してください</div>
+      </div>
+      <div class="field">
+        <label>メールアドレス<span class="required">*</span></label>
+        <input type="email" id="email" placeholder="例：yamada@example.com" required>
+        <div class="field-error" id="err-email">メールアドレスを入力してください</div>
+      </div>
+    </div>
+    <div class="field-row" style="grid-template-columns: 150px 1fr;">
+      <div class="field">
+        <label>郵便番号<span class="required">*</span></label>
+        <input type="text" id="orderer_zip" placeholder="000-0000" maxlength="9"
+          >
+        <div class="field-error" id="err-orderer_zip">郵便番号を入力してください</div>
+      </div>
+      <div class="field">
+        <label>住所<span class="required">*</span></label>
+        <input type="text" id="orderer_addr" placeholder="例：北海道余市郡赤井川村字都1番地">
+        <div class="field-error" id="err-orderer_addr">住所を入力してください</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 届け先リスト -->
+  <div class="section-label">Destinations · 届け先</div>
+
+  <div id="destinations-list"></div>
+
+  <button class="btn-add" onclick="addDestination()">＋ 届け先を追加する</button>
+
+  <!-- 備考（全体） -->
+  <div class="section-label">Note · 備考</div>
+  <div class="card">
+    <div class="field" style="margin-bottom:0">
+      <label>全体へのご要望・メモ</label>
+      <textarea id="general_note" placeholder="まとめてのご連絡事項がある場合はこちらに"></textarea>
+    </div>
+  </div>
+
+  <!-- 送信 -->
+  <div class="submit-area">
+    <button class="btn-submit" onclick="handleSubmit()">注文内容を確認する</button>
+    <div class="submit-note">送信後、担当者より折り返しご連絡いたします</div>
+  </div>
+
+  <!-- 完了 -->
+  <div class="success-screen" id="success-screen">
+    <div class="success-icon">✓</div>
+    <div class="success-title">Order Received</div>
+    <div class="success-msg">
+      <span style="font-size:17px;font-weight:700;color:var(--brown);display:block;margin-bottom:10px;">ご注文いただきまして、誠にありがとうございます。</span>
+      ご注文を受け付けました。<br>
+      ご登録のメールアドレスに受付確認メールをお送りしました。<br>
+      内容を確認のうえ、担当者より順次ご連絡いたします。<br><br>
+      <span style="font-size:13px;color:var(--text-muted);">
+        ■ お問い合わせ先<br>
+        <strong style="color:var(--brown);">有限会社滝本農場</strong><br>
+        〒046-0521 北海道余市郡赤井川村字池田278<br>
+        Mail: takimotofarm.asupara@gmail.com<br>
+        FAX: 0135-34-7855
+      </span><br><br>
+      <button onclick="location.reload()" style="margin-top:8px;padding:10px 24px;background:var(--teal);color:white;border:none;border-radius:3px;font-family:'Josefin Sans',sans-serif;font-size:12px;font-weight:700;letter-spacing:0.1em;cursor:pointer;">別のご注文はこちら</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- 確認モーダル -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-title">Order Confirm · 送信確認</div>
+    <div class="modal-body" id="modal-body"></div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal()">戻る</button>
+      <button class="btn-confirm" onclick="submitOrder()">送信する</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbwpz92g9xCefJJwbXSNgELC90SKeqqpolk4YJRwL-dSTa-KZ1plT9PpPAMAZrFlEK-WAQ/exec';
+
+// 郵便番号先頭3桁→都道府県マッピング
+const ZIP3_TO_PREF = {
+  '001':'北海道','002':'北海道','003':'北海道','004':'北海道','005':'北海道',
+  '006':'北海道','007':'北海道','008':'北海道','010':'秋田県','011':'北海道',
+  '012':'秋田県','013':'秋田県','014':'秋田県','015':'秋田県','016':'秋田県',
+  '017':'秋田県','018':'秋田県','019':'秋田県',
+  '020':'岩手県','021':'岩手県','022':'岩手県','023':'岩手県','024':'岩手県',
+  '025':'岩手県','026':'岩手県','027':'岩手県','028':'岩手県',
+  '030':'青森県','031':'青森県','032':'青森県','033':'青森県','034':'青森県',
+  '035':'青森県','036':'青森県','037':'青森県','038':'青森県',
+  '040':'北海道','041':'北海道','042':'北海道','043':'北海道','044':'北海道',
+  '045':'北海道','046':'北海道','047':'北海道','048':'北海道','049':'北海道',
+  '050':'北海道','051':'北海道','052':'北海道','053':'北海道','054':'北海道',
+  '055':'北海道','056':'北海道','057':'北海道','058':'北海道','059':'北海道',
+  '060':'北海道','061':'北海道','062':'北海道','063':'北海道','064':'北海道',
+  '065':'北海道','066':'北海道','067':'北海道','068':'北海道',
+  '070':'北海道','071':'北海道','072':'北海道','073':'北海道','074':'北海道',
+  '075':'北海道','076':'北海道','077':'北海道','078':'北海道','079':'北海道',
+  '080':'北海道','081':'北海道','082':'北海道','083':'北海道','084':'北海道',
+  '085':'北海道','086':'北海道','087':'北海道','088':'北海道','089':'北海道',
+  '090':'北海道','091':'北海道','092':'北海道','093':'北海道','094':'北海道',
+  '095':'北海道','096':'北海道','097':'北海道','098':'北海道',
+  '100':'東京都','101':'東京都','102':'東京都','103':'東京都','104':'東京都',
+  '105':'東京都','106':'東京都','107':'東京都','108':'東京都','109':'東京都',
+  '110':'東京都','111':'東京都','112':'東京都','113':'東京都','114':'東京都',
+  '115':'東京都','116':'東京都','117':'東京都','118':'東京都','119':'東京都',
+  '120':'東京都','121':'東京都','122':'東京都','123':'東京都','124':'東京都',
+  '125':'東京都','126':'東京都','127':'東京都','128':'東京都','129':'東京都',
+  '130':'東京都','131':'東京都','132':'東京都','133':'東京都','134':'東京都',
+  '135':'東京都','136':'東京都','137':'東京都','138':'東京都','139':'東京都',
+  '140':'東京都','141':'東京都','142':'東京都','143':'東京都','144':'東京都',
+  '145':'東京都','146':'東京都','147':'東京都','148':'東京都','149':'東京都',
+  '150':'東京都','151':'東京都','152':'東京都','153':'東京都','154':'東京都',
+  '155':'東京都','156':'東京都','157':'東京都','158':'東京都','159':'東京都',
+  '160':'東京都','161':'東京都','162':'東京都','163':'東京都','164':'東京都',
+  '165':'東京都','166':'東京都','167':'東京都','168':'東京都','169':'東京都',
+  '170':'東京都','171':'東京都','172':'東京都','173':'東京都','174':'東京都',
+  '175':'東京都','176':'東京都','177':'東京都','178':'東京都','179':'東京都',
+  '180':'東京都','181':'東京都','182':'東京都','183':'東京都','184':'東京都',
+  '185':'東京都','186':'東京都','187':'東京都','188':'東京都','189':'東京都',
+  '190':'東京都','191':'東京都','192':'東京都','193':'東京都','194':'東京都',
+  '195':'東京都','196':'東京都','197':'東京都','198':'東京都','199':'東京都',
+  '200':'東京都','201':'東京都','202':'東京都','203':'東京都','204':'東京都',
+  '205':'東京都','206':'東京都','207':'東京都','208':'東京都','209':'東京都',
+  '210':'神奈川県','211':'神奈川県','212':'神奈川県','213':'神奈川県','214':'神奈川県',
+  '215':'神奈川県','216':'神奈川県','217':'神奈川県','218':'神奈川県','219':'神奈川県',
+  '220':'神奈川県','221':'神奈川県','222':'神奈川県','223':'神奈川県','224':'神奈川県',
+  '225':'神奈川県','226':'神奈川県','227':'神奈川県','228':'神奈川県','229':'神奈川県',
+  '230':'神奈川県','231':'神奈川県','232':'神奈川県','233':'神奈川県','234':'神奈川県',
+  '235':'神奈川県','236':'神奈川県','237':'神奈川県','238':'神奈川県','239':'神奈川県',
+  '240':'神奈川県','241':'神奈川県','242':'神奈川県','243':'神奈川県','244':'神奈川県',
+  '245':'神奈川県','246':'神奈川県','247':'神奈川県','248':'神奈川県','249':'神奈川県',
+  '250':'神奈川県','251':'神奈川県','252':'神奈川県','253':'神奈川県','254':'神奈川県',
+  '255':'神奈川県','256':'神奈川県','257':'神奈川県','258':'神奈川県','259':'神奈川県',
+  '260':'千葉県','261':'千葉県','262':'千葉県','263':'千葉県','264':'千葉県',
+  '265':'千葉県','266':'千葉県','267':'千葉県','268':'千葉県','269':'千葉県',
+  '270':'千葉県','271':'千葉県','272':'千葉県','273':'千葉県','274':'千葉県',
+  '275':'千葉県','276':'千葉県','277':'千葉県','278':'千葉県','279':'千葉県',
+  '280':'千葉県','281':'千葉県','282':'千葉県','283':'千葉県','284':'千葉県',
+  '285':'千葉県','286':'千葉県','287':'千葉県','288':'千葉県','289':'千葉県',
+  '290':'千葉県','291':'千葉県','292':'千葉県','293':'千葉県','294':'千葉県',
+  '295':'千葉県','296':'千葉県','297':'千葉県','298':'千葉県','299':'千葉県',
+  '300':'茨城県','301':'茨城県','302':'茨城県','303':'茨城県','304':'茨城県',
+  '305':'茨城県','306':'茨城県','307':'茨城県','308':'茨城県','309':'茨城県',
+  '310':'茨城県','311':'茨城県','312':'茨城県','313':'茨城県','314':'茨城県',
+  '315':'茨城県','316':'茨城県','317':'茨城県','318':'茨城県','319':'茨城県',
+  '320':'栃木県','321':'栃木県','322':'栃木県','323':'栃木県','324':'栃木県',
+  '325':'栃木県','326':'栃木県','327':'栃木県','328':'栃木県','329':'栃木県',
+  '330':'埼玉県','331':'埼玉県','332':'埼玉県','333':'埼玉県','334':'埼玉県',
+  '335':'埼玉県','336':'埼玉県','337':'埼玉県','338':'埼玉県','339':'埼玉県',
+  '340':'埼玉県','341':'埼玉県','342':'埼玉県','343':'埼玉県','344':'埼玉県',
+  '345':'埼玉県','346':'埼玉県','347':'埼玉県','348':'埼玉県','349':'埼玉県',
+  '350':'埼玉県','351':'埼玉県','352':'埼玉県','353':'埼玉県','354':'埼玉県',
+  '355':'埼玉県','356':'埼玉県','357':'埼玉県','358':'埼玉県','359':'埼玉県',
+  '360':'埼玉県','361':'埼玉県','362':'埼玉県','363':'埼玉県','364':'埼玉県',
+  '365':'埼玉県','366':'埼玉県','367':'埼玉県','368':'埼玉県','369':'埼玉県',
+  '370':'群馬県','371':'群馬県','372':'群馬県','373':'群馬県','374':'群馬県',
+  '375':'群馬県','376':'群馬県','377':'群馬県','378':'群馬県','379':'群馬県',
+  '380':'長野県','381':'長野県','382':'長野県','383':'長野県','384':'長野県',
+  '385':'長野県','386':'長野県','387':'長野県','388':'長野県','389':'長野県',
+  '390':'長野県','391':'長野県','392':'長野県','393':'長野県','394':'長野県',
+  '395':'長野県','396':'長野県','397':'長野県','398':'長野県','399':'長野県',
+  '400':'山梨県','401':'山梨県','402':'山梨県','403':'山梨県','404':'山梨県',
+  '405':'山梨県','406':'山梨県','407':'山梨県','408':'山梨県','409':'山梨県',
+  '410':'静岡県','411':'静岡県','412':'静岡県','413':'静岡県','414':'静岡県',
+  '415':'静岡県','416':'静岡県','417':'静岡県','418':'静岡県','419':'静岡県',
+  '420':'静岡県','421':'静岡県','422':'静岡県','423':'静岡県','424':'静岡県',
+  '425':'静岡県','426':'静岡県','427':'静岡県','428':'静岡県','429':'静岡県',
+  '430':'静岡県','431':'静岡県','432':'静岡県','433':'静岡県','434':'静岡県',
+  '435':'静岡県','436':'静岡県','437':'静岡県','438':'静岡県','439':'静岡県',
+  '440':'愛知県','441':'愛知県','442':'愛知県','443':'愛知県','444':'愛知県',
+  '445':'愛知県','446':'愛知県','447':'愛知県','448':'愛知県','449':'愛知県',
+  '450':'愛知県','451':'愛知県','452':'愛知県','453':'愛知県','454':'愛知県',
+  '455':'愛知県','456':'愛知県','457':'愛知県','458':'愛知県','459':'愛知県',
+  '460':'愛知県','461':'愛知県','462':'愛知県','463':'愛知県','464':'愛知県',
+  '465':'愛知県','466':'愛知県','467':'愛知県','468':'愛知県','469':'愛知県',
+  '470':'愛知県','471':'愛知県','472':'愛知県','473':'愛知県','474':'愛知県',
+  '475':'愛知県','476':'愛知県','477':'愛知県','478':'愛知県','479':'愛知県',
+  '480':'愛知県','481':'愛知県','482':'愛知県','483':'愛知県','484':'愛知県',
+  '485':'愛知県','486':'愛知県','487':'愛知県','488':'愛知県','489':'愛知県',
+  '490':'愛知県','491':'愛知県','492':'愛知県','493':'愛知県','494':'愛知県',
+  '495':'愛知県','496':'愛知県','497':'愛知県','498':'愛知県','499':'愛知県',
+  '500':'岐阜県','501':'岐阜県','502':'岐阜県','503':'岐阜県','504':'岐阜県',
+  '505':'岐阜県','506':'岐阜県','507':'岐阜県','508':'岐阜県','509':'岐阜県',
+  '510':'三重県','511':'三重県','512':'三重県','513':'三重県','514':'三重県',
+  '515':'三重県','516':'三重県','517':'三重県','518':'三重県','519':'三重県',
+  '520':'滋賀県','521':'滋賀県','522':'滋賀県','523':'滋賀県','524':'滋賀県',
+  '525':'滋賀県','526':'滋賀県','527':'滋賀県','528':'滋賀県','529':'滋賀県',
+  '530':'大阪府','531':'大阪府','532':'大阪府','533':'大阪府','534':'大阪府',
+  '535':'大阪府','536':'大阪府','537':'大阪府','538':'大阪府','539':'大阪府',
+  '540':'大阪府','541':'大阪府','542':'大阪府','543':'大阪府','544':'大阪府',
+  '545':'大阪府','546':'大阪府','547':'大阪府','548':'大阪府','549':'大阪府',
+  '550':'大阪府','551':'大阪府','552':'大阪府','553':'大阪府','554':'大阪府',
+  '555':'大阪府','556':'大阪府','557':'大阪府','558':'大阪府','559':'大阪府',
+  '560':'大阪府','561':'大阪府','562':'大阪府','563':'大阪府','564':'大阪府',
+  '565':'大阪府','566':'大阪府','567':'大阪府','568':'大阪府','569':'大阪府',
+  '570':'大阪府','571':'大阪府','572':'大阪府','573':'大阪府','574':'大阪府',
+  '575':'大阪府','576':'大阪府','577':'大阪府','578':'大阪府','579':'大阪府',
+  '580':'大阪府','581':'大阪府','582':'大阪府','583':'大阪府','584':'大阪府',
+  '585':'大阪府','586':'大阪府','587':'大阪府','588':'大阪府','589':'大阪府',
+  '590':'大阪府','591':'大阪府','592':'大阪府','593':'大阪府','594':'大阪府',
+  '595':'大阪府','596':'大阪府','597':'大阪府','598':'大阪府','599':'大阪府',
+  '600':'京都府','601':'京都府','602':'京都府','603':'京都府','604':'京都府',
+  '605':'京都府','606':'京都府','607':'京都府','608':'京都府','609':'京都府',
+  '610':'京都府','611':'京都府','612':'京都府','613':'京都府','614':'京都府',
+  '615':'京都府','616':'京都府','617':'京都府','618':'京都府','619':'京都府',
+  '620':'京都府','621':'京都府','622':'京都府','623':'京都府','624':'京都府',
+  '625':'京都府','626':'京都府','627':'京都府','628':'京都府','629':'京都府',
+  '630':'奈良県','631':'奈良県','632':'奈良県','633':'奈良県','634':'奈良県',
+  '635':'奈良県','636':'奈良県','637':'奈良県','638':'奈良県','639':'奈良県',
+  '640':'和歌山県','641':'和歌山県','642':'和歌山県','643':'和歌山県','644':'和歌山県',
+  '645':'和歌山県','646':'和歌山県','647':'和歌山県','648':'和歌山県','649':'和歌山県',
+  '650':'兵庫県','651':'兵庫県','652':'兵庫県','653':'兵庫県','654':'兵庫県',
+  '655':'兵庫県','656':'兵庫県','657':'兵庫県','658':'兵庫県','659':'兵庫県',
+  '660':'兵庫県','661':'兵庫県','662':'兵庫県','663':'兵庫県','664':'兵庫県',
+  '665':'兵庫県','666':'兵庫県','667':'兵庫県','668':'兵庫県','669':'兵庫県',
+  '670':'兵庫県','671':'兵庫県','672':'兵庫県','673':'兵庫県','674':'兵庫県',
+  '675':'兵庫県','676':'兵庫県','677':'兵庫県','678':'兵庫県','679':'兵庫県',
+  '680':'鳥取県','681':'鳥取県','682':'鳥取県','683':'鳥取県','684':'鳥取県',
+  '685':'鳥取県','686':'鳥取県','687':'鳥取県','688':'鳥取県','689':'鳥取県',
+  '690':'島根県','691':'島根県','692':'島根県','693':'島根県','694':'島根県',
+  '695':'島根県','696':'島根県','697':'島根県','698':'島根県','699':'島根県',
+  '700':'岡山県','701':'岡山県','702':'岡山県','703':'岡山県','704':'岡山県',
+  '705':'岡山県','706':'岡山県','707':'岡山県','708':'岡山県','709':'岡山県',
+  '710':'岡山県','711':'岡山県','712':'岡山県','713':'岡山県','714':'岡山県',
+  '715':'岡山県','716':'岡山県','717':'岡山県','718':'岡山県','719':'岡山県',
+  '720':'広島県','721':'広島県','722':'広島県','723':'広島県','724':'広島県',
+  '725':'広島県','726':'広島県','727':'広島県','728':'広島県','729':'広島県',
+  '730':'広島県','731':'広島県','732':'広島県','733':'広島県','734':'広島県',
+  '735':'広島県','736':'広島県','737':'広島県','738':'広島県','739':'広島県',
+  '740':'山口県','741':'山口県','742':'山口県','743':'山口県','744':'山口県',
+  '745':'山口県','746':'山口県','747':'山口県','748':'山口県','749':'山口県',
+  '750':'山口県','751':'山口県','752':'山口県','753':'山口県','754':'山口県',
+  '755':'山口県','756':'山口県','757':'山口県','758':'山口県','759':'山口県',
+  '760':'香川県','761':'香川県','762':'香川県','763':'香川県','764':'香川県',
+  '765':'香川県','766':'香川県','767':'香川県','768':'香川県','769':'香川県',
+  '770':'徳島県','771':'徳島県','772':'徳島県','773':'徳島県','774':'徳島県',
+  '775':'徳島県','776':'徳島県','777':'徳島県','778':'徳島県','779':'徳島県',
+  '780':'高知県','781':'高知県','782':'高知県','783':'高知県','784':'高知県',
+  '785':'高知県','786':'高知県','787':'高知県','788':'高知県','789':'高知県',
+  '790':'愛媛県','791':'愛媛県','792':'愛媛県','793':'愛媛県','794':'愛媛県',
+  '795':'愛媛県','796':'愛媛県','797':'愛媛県','798':'愛媛県','799':'愛媛県',
+  '800':'福岡県','801':'福岡県','802':'福岡県','803':'福岡県','804':'福岡県',
+  '805':'福岡県','806':'福岡県','807':'福岡県','808':'福岡県','809':'福岡県',
+  '810':'福岡県','811':'福岡県','812':'福岡県','813':'福岡県','814':'福岡県',
+  '815':'福岡県','816':'福岡県','817':'福岡県','818':'福岡県','819':'福岡県',
+  '820':'福岡県','821':'福岡県','822':'福岡県','823':'福岡県','824':'福岡県',
+  '825':'福岡県','826':'福岡県','827':'福岡県','828':'福岡県','829':'福岡県',
+  '830':'福岡県','831':'福岡県','832':'福岡県','833':'福岡県','834':'福岡県',
+  '835':'福岡県','836':'福岡県','837':'福岡県','838':'福岡県','839':'福岡県',
+  '840':'佐賀県','841':'佐賀県','842':'佐賀県','843':'佐賀県','844':'佐賀県',
+  '845':'佐賀県','846':'佐賀県','847':'佐賀県','848':'佐賀県','849':'佐賀県',
+  '850':'長崎県','851':'長崎県','852':'長崎県','853':'長崎県','854':'長崎県',
+  '855':'長崎県','856':'長崎県','857':'長崎県','858':'長崎県','859':'長崎県',
+  '860':'熊本県','861':'熊本県','862':'熊本県','863':'熊本県','864':'熊本県',
+  '865':'熊本県','866':'熊本県','867':'熊本県','868':'熊本県','869':'熊本県',
+  '870':'大分県','871':'大分県','872':'大分県','873':'大分県','874':'大分県',
+  '875':'大分県','876':'大分県','877':'大分県','878':'大分県','879':'大分県',
+  '880':'宮崎県','881':'宮崎県','882':'宮崎県','883':'宮崎県','884':'宮崎県',
+  '885':'宮崎県','886':'宮崎県','887':'宮崎県','888':'宮崎県','889':'宮崎県',
+  '890':'鹿児島県','891':'鹿児島県','892':'鹿児島県','893':'鹿児島県','894':'鹿児島県',
+  '895':'鹿児島県','896':'鹿児島県','897':'鹿児島県','898':'鹿児島県','899':'鹿児島県',
+  '900':'沖縄県','901':'沖縄県','902':'沖縄県','903':'沖縄県','904':'沖縄県',
+  '905':'沖縄県','906':'沖縄県','907':'沖縄県','908':'沖縄県','909':'沖縄県',
+  '910':'福井県','911':'福井県','912':'福井県','913':'福井県','914':'福井県',
+  '915':'福井県','916':'福井県','917':'福井県','918':'福井県','919':'福井県',
+  '920':'石川県','921':'石川県','922':'石川県','923':'石川県','924':'石川県',
+  '925':'石川県','926':'石川県','927':'石川県','928':'石川県','929':'石川県',
+  '930':'富山県','931':'富山県','932':'富山県','933':'富山県','934':'富山県',
+  '935':'富山県','936':'富山県','937':'富山県','938':'富山県','939':'富山県',
+  '940':'新潟県','941':'新潟県','942':'新潟県','943':'新潟県','944':'新潟県',
+  '945':'新潟県','946':'新潟県','947':'新潟県','948':'新潟県','949':'新潟県',
+  '950':'新潟県','951':'新潟県','952':'新潟県','953':'新潟県','954':'新潟県',
+  '955':'新潟県','956':'新潟県','957':'新潟県','958':'新潟県','959':'新潟県',
+  '960':'福島県','961':'福島県','962':'福島県','963':'福島県','964':'福島県',
+  '965':'福島県','966':'福島県','967':'福島県','968':'福島県','969':'福島県',
+  '970':'福島県','971':'福島県','972':'福島県','973':'福島県','974':'福島県',
+  '975':'福島県','976':'岩手県','977':'岩手県','978':'岩手県','979':'岩手県',
+  '980':'宮城県','981':'宮城県','982':'宮城県','983':'宮城県','984':'宮城県',
+  '985':'宮城県','986':'宮城県','987':'宮城県','988':'宮城県','989':'宮城県',
+  '990':'山形県','991':'山形県','992':'山形県','993':'山形県','994':'山形県',
+  '995':'山形県','996':'山形県','997':'山形県','998':'山形県','999':'山形県',
+};
+
+// ============================================================
+// 単色価格テーブル（税別・1kg単価）
+// ============================================================
+const SINGLE_PRICES = {
+  green:  { '規格外': 1600, S: 2060, M: 2970, L: 3730, '2L': 4360, '4L': null },
+  white:  { '規格外': 1600, S: 2430, M: 3350, L: 4350, '2L': 4720, '3L': 5245, '4L': 6480 },
+  purple: { '規格外': 1600, S: 2740, M: 4270, L: 5120, '2L': 5565, '3L': 6240, '4L': null },
+};
+
+// 本数目安テーブル（品種・規格 → 目安文字列）
+const HONSU_MEIAN = {
+  green:  { '規格外': '-', S: '54本以上', M: '41〜53本', L: '29〜40本', '2L': '20〜28本', '4L': null },
+  white:  { '規格外': '-', S: '54本以上', M: '41〜53本', L: '29〜40本', '2L': '20〜28本', '3L': '15〜19本', '4L': '14本以内' },
+  purple: { '規格外': '-', S: '54本以上', M: '41〜53本', L: '29〜40本', '2L': '20〜28本', '3L': '15〜19本', '4L': null },
+};
+
+// ============================================================
+// 3色セットデータ（W400g＋G300g＋P300g＝1kg固定）
+// ============================================================
+const SET_ITEMS = [
+  { name: 'Aセット', w: '3L', g: '2L', p: '2L', price: 5076 },
+  { name: 'Bセット', w: '2L', g: '2L', p: '2L', price: 4866 },
+  { name: 'Cセット', w: '2L', g: 'L',  p: 'M上', price: 4543 },
+  { name: 'Dセット', w: 'L',  g: 'L',  p: 'L',  price: 4395 },
+  { name: 'Eセット', w: 'M',  g: 'M',  p: 'M',  price: 3512 },
+];
+
+// ============================================================
+// 送料テーブル（税別・円）
+// ============================================================
+
+// ゆうパック チルド R6.12〜
+const YUPACK = {
+  zones: ['道内','東北','関東信越〜北陸中部','関西〜九州','沖縄'],
+  delivery: ['翌日','翌日','翌日','翌々日','翌々日'],
+  prices: {
+    60:  [760,  980,  1140, 1260, 1480],
+    80:  [1090, 1290, 1470, 1640, 1830],
+    100: [1620, 1830, 1990, 2230, 2360],
+    120: [1820, 2030, 2190, 2570, 2720],
+  },
+  // 代引き手数料
+  cod: 264,
+  // 重量上限 kg（サイズ判定用）
+  weightLimit: { 60:2, 80:4.5, 100:12, 120:99 },
+};
+
+// ヤマト クール R7.4〜
+const YAMATO = {
+  zones: ['道内','北東北','南東北','関東','信越','北陸','中部','関西','中国','四国','九州','沖縄'],
+  delivery: ['翌日','翌日','翌日','翌日','翌日','翌日','翌日','翌日','翌々日','翌々日','翌々日','ー'],
+  prices: {
+    60:  [750,  950,  1050, 1150, 1250, 1350, 1450, 1550, 1600, 1700, 1650, 2090],
+    80:  [950,  1150, 1250, 1350, 1450, 1550, 1650, 1750, 2000, 2100, 1950, 2640],
+    100: [1200, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2550, null, 2200, 3260],
+    120: [1600, 1800, 1900, 2000, 2100, 2200, 2300, 2400, 3250, null, 2600, 4010],
+  },
+  cod: [300, 400, 600], // 1万以内, 3万以内, 10万以内
+  weightLimit: { 60:2, 80:4.5, 100:9, 120:13 },
+};
+
+// 国際空輸 クール R7〜
+const KOKUSAI = {
+  zones: ['道内','北東北','南東北','関東信越','北陸中部','関西','中国四国','九州','沖縄'],
+  delivery: ['翌日','翌日','翌日','翌日','翌日','翌日','翌々日','翌々日','ー'],
+  prices: {
+    60:  [1000, 1350, 1550, 1700, 1800, 1850, 2350, null, null],
+    80:  [1100, 1450, 1850, 2000, 1900, 1950, 2950, null, null],
+    100: [1300, 1600, 2400, 2550, 2050, 2200, 3650, null, null],
+    120: [1600, 1900, 3150, 3400, 2350, 2500, 4500, null, null],
+  },
+  cod: [300, 400, 600],
+  weightLimit: { 60:2, 80:4.5, 100:9, 120:13 },
+};
+
+// ============================================================
+// 都道府県 → ゾーンマッピング
+// ============================================================
+const PREF_TO_YUPACK = {
+  '北海道':0,
+  '青森県':1,'岩手県':1,'秋田県':1,'宮城県':1,'山形県':1,'福島県':1,
+  '茨城県':2,'栃木県':2,'群馬県':2,'埼玉県':2,'千葉県':2,'東京都':2,
+  '神奈川県':2,'山梨県':2,'新潟県':2,'長野県':2,
+  '富山県':2,'石川県':2,'福井県':2,
+  '岐阜県':2,'静岡県':2,'愛知県':2,'三重県':2,
+  '滋賀県':3,'京都府':3,'大阪府':3,'兵庫県':3,'奈良県':3,'和歌山県':3,
+  '岡山県':3,'広島県':3,'山口県':3,'鳥取県':3,'島根県':3,
+  '徳島県':3,'香川県':3,'愛媛県':3,'高知県':3,
+  '福岡県':3,'佐賀県':3,'長崎県':3,'熊本県':3,'大分県':3,'宮崎県':3,'鹿児島県':3,
+  '沖縄県':4,
+};
+
+const PREF_TO_YAMATO = {
+  '北海道':0,
+  '青森県':1,'岩手県':1,'秋田県':1,
+  '宮城県':2,'山形県':2,'福島県':2,
+  '茨城県':3,'栃木県':3,'群馬県':3,'埼玉県':3,'千葉県':3,'東京都':3,'神奈川県':3,'山梨県':3,
+  '新潟県':4,'長野県':4,
+  '富山県':5,'石川県':5,'福井県':5,
+  '岐阜県':6,'静岡県':6,'愛知県':6,'三重県':6,
+  '滋賀県':7,'京都府':7,'大阪府':7,'兵庫県':7,'奈良県':7,'和歌山県':7,
+  '岡山県':8,'広島県':8,'山口県':8,'鳥取県':8,'島根県':8,
+  '徳島県':9,'香川県':9,'愛媛県':9,'高知県':9,
+  '福岡県':10,'佐賀県':10,'長崎県':10,'熊本県':10,'大分県':10,'宮崎県':10,'鹿児島県':10,
+  '沖縄県':11,
+};
+
+const PREF_TO_KOKUSAI = {
+  '北海道':0,
+  '青森県':1,'岩手県':1,'秋田県':1,
+  '宮城県':2,'山形県':2,'福島県':2,
+  '茨城県':3,'栃木県':3,'群馬県':3,'埼玉県':3,'千葉県':3,'東京都':3,
+  '神奈川県':3,'山梨県':3,'新潟県':3,'長野県':3,
+  '富山県':4,'石川県':4,'福井県':4,'岐阜県':4,'静岡県':4,'愛知県':4,'三重県':4,
+  '滋賀県':5,'京都府':5,'大阪府':5,'兵庫県':5,'奈良県':5,'和歌山県':5,
+  '岡山県':6,'広島県':6,'山口県':6,'鳥取県':6,'島根県':6,
+  '徳島県':6,'香川県':6,'愛媛県':6,'高知県':6,
+  '福岡県':7,'佐賀県':7,'長崎県':7,'熊本県':7,'大分県':7,'宮崎県':7,'鹿児島県':7,
+  '沖縄県':8,
+};
+
+// ============================================================
+// 箱サイズ判定
+// ============================================================
+function getBoxSize(totalKg, carrier) {
+  const limits = carrier.weightLimit;
+  if (totalKg <= limits[60]) return 60;
+  if (totalKg <= limits[80]) return 80;
+  if (totalKg <= limits[100]) return 100;
+  return 120;
+}
+
+// 箱数・合計重量計算
+function calcBoxes(totalG) {
+  // 1箱=1kg=1000g、端数切り上げ
+  const boxes = Math.ceil(totalG / 1000);
+  return boxes;
+}
+
+// 代引き手数料計算（ヤマト・国際空輸）
+function getCodFee(carrier, orderTotal) {
+  if (carrier === YUPACK) return YUPACK.cod;
+  const fees = carrier.cod;
+  if (orderTotal <= 10000) return fees[0];
+  if (orderTotal <= 30000) return fees[1];
+  return fees[2];
+}
+
+// ============================================================
+// 送料計算メイン
+// ============================================================
+function calcShipping(pref, totalG, useCod) {
+  if (!pref || totalG <= 0) return null;
+
+  const results = [];
+
+  // ゆうパック
+  const yuZone = PREF_TO_YUPACK[pref];
+  if (yuZone !== undefined) {
+    const totalKg = totalG / 1000;
+    const boxes = calcBoxes(totalG);
+    const boxSize = getBoxSize(totalKg, YUPACK);
+    const price = YUPACK.prices[boxSize]?.[yuZone];
+    if (price != null) {
+      const cod = useCod ? YUPACK.cod : 0;
+      results.push({
+        id: 'yupack', name: 'ゆうパック', icon: '📮',
+        delivery: YUPACK.delivery[yuZone],
+        boxSize, boxes, price,
+        cod, total: price + cod,
+        available: true,
+        zone: YUPACK.zones[yuZone],
+      });
+    }
+  }
+
+  // ヤマト
+  const yaZone = PREF_TO_YAMATO[pref];
+  if (yaZone !== undefined) {
+    const totalKg = totalG / 1000;
+    const boxes = calcBoxes(totalG);
+    const boxSize = getBoxSize(totalKg, YAMATO);
+    const price = YAMATO.prices[boxSize]?.[yaZone];
+    const available = price != null && YAMATO.delivery[yaZone] !== 'ー';
+    const cod = (useCod && available) ? getCodFee(YAMATO, 0) : 0;
+    results.push({
+      id: 'yamato', name: 'ヤマト運輸', icon: '🚚',
+      delivery: YAMATO.delivery[yaZone],
+      boxSize, boxes, price: price ?? null,
+      cod, total: available ? (price + cod) : null,
+      available,
+      zone: YAMATO.zones[yaZone],
+      unavailReason: !available ? '沖縄へのお届けは対応外です' : null,
+    });
+  }
+
+  // 国際空輸
+  const koZone = PREF_TO_KOKUSAI[pref];
+  if (koZone !== undefined) {
+    const totalKg = totalG / 1000;
+    const boxes = calcBoxes(totalG);
+    const boxSize = getBoxSize(totalKg, KOKUSAI);
+    const price = KOKUSAI.prices[boxSize]?.[koZone];
+    const available = price != null && KOKUSAI.delivery[koZone] !== 'ー';
+    const cod = (useCod && available) ? getCodFee(KOKUSAI, 0) : 0;
+    results.push({
+      id: 'kokusai', name: '国際空輸', icon: '✈️',
+      delivery: KOKUSAI.delivery[koZone],
+      boxSize, boxes, price: price ?? null,
+      cod, total: available ? (price + cod) : null,
+      available,
+      zone: KOKUSAI.zones[koZone],
+      unavailReason: !available ? 'この地域への翌日配送に対応していません' : null,
+    });
+  }
+
+  return results;
+}
+
+// ============================================================
+// 都道府県抽出（住所文字列から）
+// ============================================================
+function extractPref(addr) {
+  const prefs = Object.keys(PREF_TO_YUPACK);
+  for (const p of prefs) {
+    if (addr.includes(p)) return p;
+  }
+  return null;
+}
+
+// 郵便番号入力→都道府県判定→送料更新
+function onZipInput(id, input) {
+  const zip = input.value.replace(/[^0-9]/g, '');
+  if (zip.length < 3) return;
+  const prefix = zip.substring(0, 3);
+  const pref = ZIP3_TO_PREF[prefix];
+  if (pref) updateShippingOptionsWithPref(id, pref);
+}
+
+// ============================================================
+// 重量変更 → UI更新
+// ============================================================
+// タブ切り替えは廃止（単色・セット同時注文対応）
+
+// 単色：品種ごとの価格表示更新
+function onWeightChange(id) {
+  const varieties = ['green', 'white', 'purple'];
+  varieties.forEach(v => {
+    const wEl = document.getElementById(`d${id}_w_${v}`);
+    const sEl = document.getElementById(`d${id}_spec_${v}`);
+    const priceEl = document.getElementById(`d${id}_price_${v}`);
+    const honsuEl = document.getElementById(`d${id}_honsu_${v}`);
+    if (!wEl) return;
+    const g = parseInt(wEl.value) || 0;
+    const spec = sEl?.value || '';
+    // 本数目安の更新
+    if (honsuEl) {
+      if (spec && HONSU_MEIAN[v]?.[spec]) {
+        honsuEl.textContent = `📌 ${HONSU_MEIAN[v][spec]}/kg目安`;
+        honsuEl.style.display = 'inline';
+      } else {
+        honsuEl.textContent = '';
+        honsuEl.style.display = 'none';
+      }
+    }
+    if (g > 0 && spec) {
+      const unitPrice = SINGLE_PRICES[v]?.[spec];
+      if (unitPrice != null) {
+        if (priceEl) priceEl.textContent = `¥${Math.round(unitPrice * g / 1000).toLocaleString()}`;
+      } else {
+        if (priceEl) priceEl.textContent = '対応外';
+      }
+    } else {
+      if (priceEl) priceEl.textContent = g > 0 ? '規格を選択' : '-';
+    }
+  });
+  updateSummary(id);
+}
+
+// 3色セット：選択変更
+function onSetChange(id) {
+  const selected = document.querySelector(`input[name="d${id}_set"]:checked`);
+  const qty = parseInt(document.getElementById(`d${id}_set_qty`)?.value) || 1;
+  const totalEl = document.getElementById(`d${id}_set_total`);
+  if (selected) {
+    const set = SET_ITEMS[parseInt(selected.value)];
+    if (totalEl) totalEl.textContent = `¥${(set.price * qty).toLocaleString()}（税別）`;
+  } else {
+    if (totalEl) totalEl.textContent = '-';
+  }
+  updateSummary(id);
+}
+
+// ============================================================
+// 配送オプションUI更新
+// ============================================================
+
+// 都道府県直接指定版（郵便番号入力時に使用）
+function updateShippingOptionsWithPref(id, pref) {
+  const totalG = getTotalWeight(id);
+  const useCod = document.getElementById(`d${id}_cod`)?.checked || false;
+  renderShippingOptions(id, pref, totalG, useCod);
+}
+
+// 合計重量取得（単色＋セット合算）
+function getTotalWeight(id) {
+  const gW = parseInt(document.getElementById(`d${id}_w_green`)?.value) || 0;
+  const wW = parseInt(document.getElementById(`d${id}_w_white`)?.value) || 0;
+  const pW = parseInt(document.getElementById(`d${id}_w_purple`)?.value) || 0;
+  const singleG = gW + wW + pW;
+  const selected = document.querySelector(`input[name="d${id}_set"]:checked`);
+  const qty = parseInt(document.getElementById(`d${id}_set_qty`)?.value) || 0;
+  const setG = selected ? qty * 1000 : 0;
+  return singleG + setG;
+}
+
+
+
+// 合計サマリー更新（単色＋セット合算）
+function updateSummary(id) {
+  const varieties = ['green', 'white', 'purple'];
+  let singleG = 0;
+  let singlePrice = 0;
+  varieties.forEach(v => {
+    const g = parseInt(document.getElementById(`d${id}_w_${v}`)?.value) || 0;
+    const spec = document.getElementById(`d${id}_spec_${v}`)?.value || '';
+    if (g > 0 && spec) {
+      const unitPrice = SINGLE_PRICES[v]?.[spec];
+      if (unitPrice != null) { singleG += g; singlePrice += Math.round(unitPrice * g / 1000); }
+    }
+  });
+  const selected = document.querySelector(`input[name="d${id}_set"]:checked`);
+  const qty = parseInt(document.getElementById(`d${id}_set_qty`)?.value) || 1;
+  const set = selected ? SET_ITEMS[parseInt(selected.value)] : null;
+  const setG = set ? qty * 1000 : 0;
+  const setPrice = set ? set.price * qty : 0;
+  const totalG = singleG + setG;
+  const totalPrice = singlePrice + setPrice;
+  const summary = document.getElementById(`d${id}_weight_summary`);
+  if (totalG > 0) {
+    const boxes = calcBoxes(totalG);
+    const kg = (totalG / 1000).toFixed(1);
+    let txt = `合計 <strong>${kg}kg</strong>（${boxes}箱）`;
+    if (singleG > 0 && setG > 0) txt += `　単色¥${singlePrice.toLocaleString()} ＋ セット¥${setPrice.toLocaleString()}`;
+    txt += `　<strong style="color:var(--coral)">合計¥${totalPrice.toLocaleString()}</strong><span style="font-size:11px;">（税別）</span>`;
+    summary.innerHTML = txt;
+    summary.classList.add('visible');
+  } else {
+    summary.classList.remove('visible');
+  }
+  updateShippingOptions(id);
+}
+
+function updateShippingOptions(id) {
+  const addr = document.getElementById(`d${id}_addr`)?.value || '';
+  const pref = extractPref(addr);
+  const totalG = getTotalWeight(id);
+  const useCod = document.getElementById(`d${id}_cod`)?.checked || false;
+  renderShippingOptions(id, pref, totalG, useCod);
+}
+
+function renderShippingOptions(id, pref, totalG, useCod) {
+  const container = document.getElementById(`d${id}_shipping_options`);
+  const codWrap = document.getElementById(`d${id}_cod_wrap`);
+
+  if (!pref || totalG <= 0) {
+    container.innerHTML = '<div class="shipping-placeholder">郵便番号・品種重量を入力すると送料が表示されます</div>';
+    if (codWrap) codWrap.style.display = 'none';
+    return;
+  }
+
+  const results = calcShipping(pref, totalG, useCod);
+  if (!results || results.length === 0) {
+    container.innerHTML = '<div class="shipping-placeholder">該当する配送方法が見つかりませんでした</div>';
+    return;
+  }
+
+  if (codWrap) codWrap.style.display = 'block';
+
+  // 現在選択中のキャリアを保持
+  const currentSelected = document.querySelector(`input[name="d${id}_carrier"]:checked`)?.value;
+
+  let html = '<div class="shipping-option-list">';
+  results.forEach((r, i) => {
+    const checked = currentSelected ? currentSelected === r.id : (i === 0 && r.available);
+    const disabledAttr = r.available ? '' : 'disabled';
+    html += `
+    <div class="shipping-option ${r.available ? '' : 'unavailable'}">
+      <input type="radio" name="d${id}_carrier" id="d${id}_c_${r.id}" value="${r.id}"
+        ${checked && r.available ? 'checked' : ''} ${disabledAttr}>
+      <label class="shipping-option-label" for="d${id}_c_${r.id}">
+        <div>
+          <div class="shipping-name">${r.icon} ${r.name}</div>
+          <div class="shipping-detail">${r.zone}ゾーン・${r.boxSize}サイズ×${r.boxes}箱・${r.delivery}着（送料税別）${r.catchcopy ? '　<span style="color:#e05800;font-weight:700;font-size:12px;">🌿 '+r.catchcopy+'</span>' : ''}${r.unavailReason ? '　⚠ '+r.unavailReason : ''}</div>
+        </div>
+        <div style="text-align:right;">
+          ${r.available
+            ? `<div class="shipping-price">¥${r.total.toLocaleString()}</div>
+               <div class="shipping-price-sub">送料¥${r.price.toLocaleString()}${useCod ? `＋代引¥${r.cod}` : '（税別）'}</div>`
+            : `<div class="shipping-unavail-msg">対応不可</div>`
+          }
+        </div>
+      </label>
+    </div>`;
+  });
+  html += '</div>';
+  container.innerHTML = html;
+}
+
+// ============================================================
+// 届け先管理
+// ============================================================
+let destCount = 0;
+
+function addDestination() {
+  destCount++;
+  const id = destCount;
+  const div = document.createElement('div');
+  div.className = 'destination-card';
+  div.id = `dest-${id}`;
+  div.innerHTML = `
+    <div class="destination-header">
+      <span class="destination-num">DEST. ${String(id).padStart(2,'0')}</span>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <button class="btn-copy-orderer" onclick="copyOrdererInfo(${id})" title="注文者の情報をここにコピー">📋 送り主と同じ</button>
+        ${id > 1 ? `<button class="btn-remove" onclick="removeDestination(${id})">✕ 削除</button>` : ''}
+      </div>
+    </div>
+    <div class="destination-body">
+      <div class="field-row">
+        <div class="field">
+          <label>お届け先 氏名<span class="required">*</span></label>
+          <input type="text" id="d${id}_name" placeholder="例：鈴木 花子">
+        </div>
+        <div class="field">
+          <label>電話番号<span class="required">*</span></label>
+          <input type="tel" id="d${id}_tel" placeholder="例：090-0000-0000">
+        </div>
+      </div>
+      <div class="field-row" style="grid-template-columns: 120px 1fr;">
+        <div class="field">
+          <label>郵便番号<span class="required">*</span></label>
+          <input type="text" id="d${id}_zip" placeholder="000-0000" maxlength="9"
+            oninput="onZipInput(${id}, this)">
+        </div>
+        <div class="field">
+          <label>住所<span class="required">*</span></label>
+          <input type="text" id="d${id}_addr" placeholder="例：北海道余市郡赤井川村字都1番地">
+        </div>
+      </div>
+      <!-- 単色入力 -->
+      <div id="d${id}_panel_single">
+        <div class="field">
+          <label>🌿 単色　品種・規格・重量<span style="font-size:11px;font-weight:400;color:var(--text-muted);margin-left:6px;">（注文しない色は空欄）</span></label>
+          <div class="variety-grid">
+            <div class="variety-row">
+              <span class="variety-badge green">グリーン</span>
+              <select id="d${id}_spec_green" onchange="onWeightChange(${id})" class="spec-select">
+                <option value="">規格</option>
+                <option value="規格外">規格外</option>
+                <option value="S">S</option>
+                <option value="M">M</option>
+                <option value="L">L</option>
+                <option value="2L">2L</option>
+              </select>
+              <div class="weight-input-wrap">
+                <input type="number" id="d${id}_w_green" min="500" step="100" placeholder="0"
+                  oninput="onWeightChange(${id})" class="weight-input">
+                <span class="weight-unit">g</span>
+              </div>
+              <span class="variety-price" id="d${id}_price_green">-</span>
+              <span class="honsu-hint" id="d${id}_honsu_green"></span>
+            </div>
+            <div class="variety-row">
+              <span class="variety-badge white">ホワイト</span>
+              <select id="d${id}_spec_white" onchange="onWeightChange(${id})" class="spec-select">
+                <option value="">規格</option>
+                <option value="規格外">規格外</option>
+                <option value="S">S</option>
+                <option value="M">M</option>
+                <option value="L">L</option>
+                <option value="2L">2L</option>
+                <option value="3L">3L</option>
+                <option value="4L">4L</option>
+              </select>
+              <div class="weight-input-wrap">
+                <input type="number" id="d${id}_w_white" min="500" step="100" placeholder="0"
+                  oninput="onWeightChange(${id})" class="weight-input">
+                <span class="weight-unit">g</span>
+              </div>
+              <span class="variety-price" id="d${id}_price_white">-</span>
+              <span class="honsu-hint" id="d${id}_honsu_white"></span>
+            </div>
+            <div class="variety-row">
+              <span class="variety-badge purple">パープル</span>
+              <select id="d${id}_spec_purple" onchange="onWeightChange(${id})" class="spec-select">
+                <option value="">規格</option>
+                <option value="規格外">規格外</option>
+                <option value="S">S</option>
+                <option value="M">M</option>
+                <option value="L">L</option>
+                <option value="2L">2L</option>
+                <option value="3L">3L</option>
+              </select>
+              <div class="weight-input-wrap">
+                <input type="number" id="d${id}_w_purple" min="500" step="100" placeholder="0"
+                  oninput="onWeightChange(${id})" class="weight-input">
+                <span class="weight-unit">g</span>
+              </div>
+              <span class="variety-price" id="d${id}_price_purple">-</span>
+              <span class="honsu-hint" id="d${id}_honsu_purple"></span>
+            </div>
+          </div>
+          <div class="weight-hint">※ 各色500g以上・100g単位でご入力ください（注文しない色は0のままで）</div>
+        </div>
+      </div>
+
+      <!-- 3色セット入力 -->
+      <!-- 3色セット入力 -->
+      <div id="d${id}_panel_set" style="margin-top:4px;padding-top:12px;border-top:1px dashed var(--border);">
+        <div class="field">
+          <label>🎁 3色セット　セット選択<span style="font-size:11px;font-weight:400;color:var(--text-muted);margin-left:6px;">（不要な場合は選択不要）</span></label>
+          <div class="set-options">
+            ${SET_ITEMS.map((s,i) => `
+            <div class="set-option">
+              <input type="radio" name="d${id}_set" id="d${id}_set_${i}" value="${i}"
+                onchange="onSetChange(${id})">
+              <label for="d${id}_set_${i}" class="set-option-label">
+                <div class="set-name">${s.name}</div>
+                <div class="set-detail">W:${s.w} / G:${s.g} / P:${s.p}　W400g＋G300g＋P300g</div>
+                <div class="set-price">¥${s.price.toLocaleString()}<span class="set-price-unit">/箱</span></div>
+              </label>
+            </div>`).join('')}
+          </div>
+        </div>
+        <div class="field">
+          <label>箱数<span class="required">*</span></label>
+          <div class="set-qty-wrap">
+            <input type="number" id="d${id}_set_qty" min="1" value="1" class="set-qty-input"
+              oninput="onSetChange(${id})">
+            <span class="weight-unit">箱</span>
+            <span class="set-total-price" id="d${id}_set_total">-</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="weight-summary" id="d${id}_weight_summary"></div>
+      <div class="field">
+        <label>配送方法<span class="required">*</span></label>
+        <div class="shipping-options" id="d${id}_shipping_options">
+          <div class="shipping-placeholder">郵便番号を入力すると送料が表示されます</div>
+        </div>
+        <div class="cod-wrap" id="d${id}_cod_wrap" style="display:none;">
+          <label class="cod-label">
+            <input type="checkbox" id="d${id}_cod" onchange="onWeightChange(${id})">
+            <span>代金引換（代引き手数料が加算されます）</span>
+          </label>
+        </div>
+      </div>
+      <div class="field">
+        <label>のし</label>
+        <div class="checkbox-group">
+          <div class="check-option">
+            <input type="checkbox" id="d${id}_noshi" value="お中元のし希望">
+            <label for="d${id}_noshi">🎁 お中元ののし希望</label>
+          </div>
+        </div>
+      </div>
+      <div class="field" style="margin-bottom:0">
+        <label>届け先備考</label>
+        <div style="font-size:12px;color:var(--coral);margin-bottom:5px;">⚠ お届け日のご指定はお受けできません。不在日のご連絡はこちらへ。</div>
+        <textarea id="d${id}_note" placeholder="お届け時間帯・不在日など"></textarea>
+      </div>
+    </div>
+  `;
+  document.getElementById('destinations-list').appendChild(div);
+  div.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function removeDestination(id) {
+  document.getElementById(`dest-${id}`).remove();
+}
+
+
+
+
+// 注文者情報を届け先にコピー
+function copyOrdererInfo(id) {
+  document.getElementById(`d${id}_name`).value = document.getElementById('orderer_name').value;
+  document.getElementById(`d${id}_tel`).value = document.getElementById('phone').value;
+  document.getElementById(`d${id}_zip`).value = document.getElementById('orderer_zip').value;
+  document.getElementById(`d${id}_addr`).value = document.getElementById('orderer_addr').value;
+  // エラー表示をクリア
+  ['name','tel','zip','addr'].forEach(f => {
+    document.getElementById(`d${id}_${f}`)?.classList.remove('error');
+  });
+  // 住所から送料を再計算
+  updateShippingOptions(id);
+}
+
+
+// バリデーション
+function validate() {
+  let ok = true;
+  const required = ['orderer_name','phone','email','orderer_zip','orderer_addr'];
+  required.forEach(f => {
+    const el = document.getElementById(f);
+    const err = document.getElementById(`err-${f}`);
+    if (!el.value.trim()) {
+      el.classList.add('error');
+      if (err) err.style.display = 'block';
+      ok = false;
+    } else {
+      el.classList.remove('error');
+      if (err) err.style.display = 'none';
+    }
+  });
+
+  const dests = document.querySelectorAll('.destination-card');
+  if (dests.length === 0) {
+    alert('届け先を1件以上追加してください。');
+    ok = false;
+  }
+  dests.forEach(d => {
+    const id = d.id.replace('dest-','');
+    ['name','tel','zip','addr'].forEach(f => {
+      const el = document.getElementById(`d${id}_${f}`);
+      if (el && !el.value.trim()) {
+        el.classList.add('error');
+        ok = false;
+      } else if (el) {
+        el.classList.remove('error');
+      }
+    });
+    // 重量チェック（単色・セット少なくとも一方が必要）
+    const gW = parseInt(document.getElementById(`d${id}_w_green`)?.value) || 0;
+    const wW = parseInt(document.getElementById(`d${id}_w_white`)?.value) || 0;
+    const pW = parseInt(document.getElementById(`d${id}_w_purple`)?.value) || 0;
+    const selSet = document.querySelector(`input[name="d${id}_set"]:checked`);
+    if (gW + wW + pW < 500 && !selSet) ok = false;
+    // 配送方法チェック
+    const carrier = document.querySelector(`input[name="d${id}_carrier"]:checked`);
+    if (!carrier) ok = false;
+  });
+  return ok;
+}
+
+// 確認モーダル
+function handleSubmit() {
+  if (!validate()) {
+    alert('入力漏れがあります。赤くなっている項目を確認してください。');
+    return;
+  }
+  const dests = document.querySelectorAll('.destination-card');
+  let summary = `<strong>注文者：</strong>${document.getElementById('orderer_name').value}<br>`;
+  summary += `<strong>届け先数：</strong>${dests.length}件<br><br>`;
+  dests.forEach((d, i) => {
+    const id = d.id.replace('dest-','');
+    const name = document.getElementById(`d${id}_name`).value;
+    const addr = document.getElementById(`d${id}_addr`).value;
+
+    const gW = parseInt(document.getElementById(`d${id}_w_green`)?.value) || 0;
+    const wW = parseInt(document.getElementById(`d${id}_w_white`)?.value) || 0;
+    const pW = parseInt(document.getElementById(`d${id}_w_purple`)?.value) || 0;
+    const selSet = document.querySelector(`input[name="d${id}_set"]:checked`);
+    const qty = parseInt(document.getElementById(`d${id}_set_qty`)?.value) || 1;
+    const set = selSet ? SET_ITEMS[parseInt(selSet.value)] : null;
+    const singleG = gW + wW + pW;
+    const setG = set ? qty * 1000 : 0;
+    let totalG = singleG + setG;
+    const gSpec = document.getElementById(`d${id}_spec_green`)?.value;
+    const wSpec = document.getElementById(`d${id}_spec_white`)?.value;
+    const pSpec = document.getElementById(`d${id}_spec_purple`)?.value;
+    const singleDetail = [gW?`G:${gSpec} ${gW}g`:'', wW?`W:${wSpec} ${wW}g`:'', pW?`P:${pSpec} ${pW}g`:''].filter(Boolean).join(' / ');
+    const setDetail = set ? `${set.name}（W:${set.w}/G:${set.g}/P:${set.p}）×${qty}箱` : '';
+    const orderParts = [singleDetail, setDetail].filter(Boolean);
+    const orderType = [singleG > 0 ? '単色' : '', set ? '3色セット' : ''].filter(Boolean).join('＋');
+    const orderDetail = orderParts.join(' ＋ ');
+    const carrier = document.querySelector(`input[name="d${id}_carrier"]:checked`)?.value || 'ー';
+    const carrierNames = {yupack:'ゆうパック', yamato:'ヤマト運輸', kokusai:'国際空輸'};
+    const pref = extractPref(addr);
+    const shippingResults = calcShipping(pref, totalG, document.getElementById(`d${id}_cod`)?.checked);
+    const selectedShipping = shippingResults?.find(r => r.id === carrier);
+    const shippingTotal = selectedShipping ? `¥${selectedShipping.total.toLocaleString()}` : 'ー';
+    summary += `<strong>届け先${i+1}：</strong>${name}（${addr.substring(0,15)}…）<br>`;
+    summary += `　${orderType}：${orderDetail} / ${carrierNames[carrier]||carrier} ${shippingTotal}<br>`;
+  });
+  document.getElementById('modal-body').innerHTML = summary;
+  document.getElementById('modal').classList.add('active');
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('active');
+}
+
+// 送信
+function submitOrder() {
+  const dests = document.querySelectorAll('.destination-card');
+  const destinations = [];
+  dests.forEach(d => {
+    const id = d.id.replace('dest-','');
+    const gW = parseInt(document.getElementById(`d${id}_w_green`)?.value) || 0;
+    const wW = parseInt(document.getElementById(`d${id}_w_white`)?.value) || 0;
+    const pW = parseInt(document.getElementById(`d${id}_w_purple`)?.value) || 0;
+    const selSet2 = document.querySelector(`input[name="d${id}_set"]:checked`);
+    const qty2 = parseInt(document.getElementById(`d${id}_set_qty`)?.value) || 1;
+    const set2 = selSet2 ? SET_ITEMS[parseInt(selSet2.value)] : null;
+    const totalG = (gW + wW + pW) + (set2 ? qty2 * 1000 : 0);
+    const gSpec2 = document.getElementById(`d${id}_spec_green`)?.value;
+    const wSpec2 = document.getElementById(`d${id}_spec_white`)?.value;
+    const pSpec2 = document.getElementById(`d${id}_spec_purple`)?.value;
+    const singleDetail2 = [gW?`G:${gSpec2} ${gW}g`:'', wW?`W:${wSpec2} ${wW}g`:'', pW?`P:${pSpec2} ${pW}g`:''].filter(Boolean).join(' / ');
+    const setDetail2 = set2 ? `${set2.name}×${qty2}箱` : '';
+    const orderType2 = [gW+wW+pW>0?'単色':'', set2?'3色セット':''].filter(Boolean).join('＋');
+    const orderDetail2 = [singleDetail2, setDetail2].filter(Boolean).join(' ＋ ');
+    const carrierId = document.querySelector(`input[name="d${id}_carrier"]:checked`)?.value;
+    const useCod = document.getElementById(`d${id}_cod`)?.checked || false;
+    const addr = document.getElementById(`d${id}_addr`).value;
+    const pref = extractPref(addr);
+    const shippingResults = calcShipping(pref, totalG, useCod);
+    const selectedShipping = shippingResults?.find(r => r.id === carrierId);
+    const noshi = document.getElementById(`d${id}_noshi`)?.checked ? 'お中元のし希望' : '';
+    destinations.push({
+      name: document.getElementById(`d${id}_name`).value,
+      tel: document.getElementById(`d${id}_tel`).value,
+      zip: document.getElementById(`d${id}_zip`).value,
+      address: addr,
+      order_type: orderType2,
+      order_detail: orderDetail2,
+      total_weight_g: totalG,
+      box_size: selectedShipping?.boxSize,
+      boxes: selectedShipping?.boxes,
+      carrier: carrierId,
+      shipping_fee: selectedShipping?.price,
+      cod_fee: useCod ? selectedShipping?.cod : 0,
+      shipping_total: selectedShipping?.total,
+      noshi,
+      note: document.getElementById(`d${id}_note`).value,
+    });
+  });
+
+  const payload = {
+    orderer_name: document.getElementById('orderer_name').value,
+    orderer_kana: document.getElementById('orderer_kana').value,
+    orderer_zip: document.getElementById('orderer_zip').value,
+    orderer_addr: document.getElementById('orderer_addr').value,
+    phone: document.getElementById('phone').value,
+    email: document.getElementById('email').value,
+    general_note: document.getElementById('general_note').value,
+    destinations,
+    submitted_at: new Date().toLocaleString('ja-JP'),
+  };
+
+  // GAS未設定の場合はデモ表示
+  if (GAS_URL === 'YOUR_GAS_WEBAPP_URL_HERE') {
+    console.log('送信データ（デモ）:', JSON.stringify(payload, null, 2));
+    closeModal();
+    document.querySelector('.container').style.display = 'none';
+    document.getElementById('success-screen').classList.add('active');
+    document.getElementById('success-screen').style.display = 'block';
+    return;
+  }
+
+  // 送信中ボタンをローディング表示
+  const confirmBtn = document.querySelector('.btn-confirm');
+  if (confirmBtn) {
+    confirmBtn.disabled = true;
+    confirmBtn.textContent = '送信中…';
+  }
+
+  // GETリクエスト方式（CORS回避）
+  const encodedPayload = encodeURIComponent(JSON.stringify(payload));
+  const requestUrl = GAS_URL + '?data=' + encodedPayload;
+
+  fetch(requestUrl, {
+    method: 'GET',
+  }).then(() => {
+    closeModal();
+    document.querySelector('.container').style.display = 'none';
+    document.getElementById('success-screen').classList.add('active');
+    document.getElementById('success-screen').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }).catch(err => {
+    // ボタンを元に戻す
+    if (confirmBtn) {
+      confirmBtn.disabled = false;
+      confirmBtn.textContent = '送信する';
+    }
+    // コンテナが消えていたら復元
+    document.querySelector('.container').style.display = '';
+    alert('送信に失敗しました。インターネット接続を確認のうえ、再度お試しください。');
+    console.error(err);
+  });
+}
+
+// 初期表示：届け先1件を自動追加
+addDestination();
+</script>
+
+</body>
+</html>
